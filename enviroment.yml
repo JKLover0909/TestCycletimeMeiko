@@ -1,0 +1,20 @@
+﻿name: ts_yolo12
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+dependencies:
+  - python=3.10
+  - openjdk=17
+  - pytorch=2.2.1
+  - torchvision
+  - torchaudio
+  - pytorch-cuda=11.8
+  - pip
+  - pip:
+      - torchserve==0.11.0
+      - torch-model-archiver==0.11.0
+      - ultralytics
+      - opencv-python
+      - pillow
+      - numpy

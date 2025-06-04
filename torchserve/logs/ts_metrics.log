@@ -1,0 +1,5 @@
+2025-06-04T16:32:33,945 - Requests2XX.Count:1.0|#Level:Host|#hostname:DESKTOP-G57G3K8,timestamp:1749029553
+2025-06-04T16:33:22,125 - Requests5XX.Count:1.0|#Level:Host|#hostname:DESKTOP-G57G3K8,timestamp:1749029602
+2025-06-04T16:33:22,925 - Requests4XX.Count:1.0|#Level:Host|#hostname:DESKTOP-G57G3K8,timestamp:1749029602
+2025-06-04T16:33:31,418 - Requests2XX.Count:1.0|#Level:Host|#hostname:DESKTOP-G57G3K8,timestamp:1749029611
+2025-06-04T16:33:32,203 - Requests4XX.Count:1.0|#Level:Host|#hostname:DESKTOP-G57G3K8,timestamp:1749029612
