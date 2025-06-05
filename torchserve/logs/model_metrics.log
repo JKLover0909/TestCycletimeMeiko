@@ -1,0 +1,6 @@
+2025-06-05T09:31:15,735 - HandlerTime.ms:117.05|#ModelName:bamdinh,Level:Model|#hostname:DESKTOP-G57G3K8,requestID:5a7ed79d-4a24-4287-a569-c91e216629e7,timestamp:1749115875
+2025-06-05T09:31:15,740 - PredictionTime.ms:117.29|#ModelName:bamdinh,Level:Model|#hostname:DESKTOP-G57G3K8,requestID:5a7ed79d-4a24-4287-a569-c91e216629e7,timestamp:1749115875
+2025-06-05T09:31:52,423 - HandlerTime.ms:47.25|#ModelName:bamdinh,Level:Model|#hostname:DESKTOP-G57G3K8,requestID:12fbcbe7-4eeb-48b2-a086-ba946d6611b6,timestamp:1749115912
+2025-06-05T09:31:52,423 - PredictionTime.ms:47.46|#ModelName:bamdinh,Level:Model|#hostname:DESKTOP-G57G3K8,requestID:12fbcbe7-4eeb-48b2-a086-ba946d6611b6,timestamp:1749115912
+2025-06-05T09:34:09,757 - HandlerTime.ms:30.11|#ModelName:bamdinh,Level:Model|#hostname:DESKTOP-G57G3K8,requestID:28fea39d-af64-477a-929a-45820f2288b9,timestamp:1749116049
+2025-06-05T09:34:09,757 - PredictionTime.ms:30.29|#ModelName:bamdinh,Level:Model|#hostname:DESKTOP-G57G3K8,requestID:28fea39d-af64-477a-929a-45820f2288b9,timestamp:1749116049

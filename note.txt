@@ -1,0 +1,5 @@
+curl -X POST http://localhost:8080/predictions/bamdinh -T /tmp/test.jpg
+torchserve --start --model-store "/root/Code/TestCycletimeMeiko/torchserve/model_store" --models all --ts-config config.properties
+lsof -i :8080
+kill -9 
+chmod +x predict.sh
