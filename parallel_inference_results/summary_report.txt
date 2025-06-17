@@ -1,0 +1,39 @@
+PARALLEL INFERENCE SUMMARY REPORT
+==================================================
+
+Total Engines: 5
+Successful: 5
+Failed: 0
+
+PERFORMANCE STATISTICS:
+------------------------------
+Average inference time: 340.86ms
+Fastest inference: 335.37ms
+Slowest inference: 345.37ms
+Total detections: 2
+Average detections per model: 0.4
+
+INDIVIDUAL RESULTS:
+------------------------------
+1. VetLom:
+   Time: 335.37ms
+   Detections: 0
+
+2. KhuyetMach:
+   Time: 340.30ms
+   Detections: 0
+
+3. Xuoc:
+   Time: 341.35ms
+   Detections: 1
+   Avg Confidence: 0.480
+
+4. NganMach:
+   Time: 341.91ms
+   Detections: 0
+
+5. ThuaDong:
+   Time: 345.37ms
+   Detections: 1
+   Avg Confidence: 0.934
+
