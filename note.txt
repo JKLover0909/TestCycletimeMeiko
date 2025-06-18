@@ -3,3 +3,7 @@ torchserve --start --model-store "/root/Code/TestCycletimeMeiko/torchserve/model
 lsof -i :8080
 kill -9 
 chmod +x predict.sh
+
+python AIDetect.py --image_path /home/jkl0909/TestCycletimeMeiko/PCB_Project/data/raw/thuadong/testthuadong.jpg --confidence 0.5
+python Segment.py --image_path /home/jkl0909/TestCycletimeMeiko/PCB_Project/data/raw/thuadong/testthuadong.jpg --class_name Xuoc --coordinates "206,237,287,316" --theta -43.4 --output_json > seg_data.json
+python Calculator.py --segmentation_data /home/jkl0909/TestCycletimeMeiko/sam_segmentation_results/segmentation_data_Xuoc_20250618_170905.json

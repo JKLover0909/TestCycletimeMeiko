@@ -1,0 +1,44 @@
+{
+  "success": true,
+  "timestamp": "20250618_185501",
+  "pipeline_version": "3.0",
+  "input": {
+    "image_path": "/home/jkl0909/TestCycletimeMeiko/Data/thuadong/testthuadong.jpg",
+    "confidence_threshold": 0.5
+  },
+  "results": {
+    "detection": {
+      "class_name": "ThuaDong",
+      "confidence": 0.934,
+      "bbox": [
+        217.0,
+        241.0,
+        292.0,
+        319.0
+      ],
+      "angle": -89.6
+    },
+    "segmentation": {
+      "area": 2895.5,
+      "perimeter": 216.7523068189621,
+      "center": {
+        "x": 255.82484314741262,
+        "y": 283.1317561733725
+      },
+      "num_points": 92
+    },
+    "final_dimensions": {
+      "width": 57.8868864161455,
+      "height": 66.14499809281324,
+      "area": 3828.927991594841,
+      "rotation_angle": -89.6
+    }
+  },
+  "output_files": {
+    "segmentation_visualization": "sam_segmentation_results/segmentation_ThuaDong_20250618_185458.png",
+    "segmentation_data": "sam_segmentation_results/segmentation_data_ThuaDong_20250618_185458.json",
+    "calculation_visualization": "calculation_results/rotated_bbox_ThuaDong_20250618_185500.png",
+    "calculation_data": "calculation_results/calculation_results_ThuaDong_20250618_185500.json",
+    "final_results": "inference_results/inference_results_ThuaDong_20250618_185501.json"
+  }
+}
