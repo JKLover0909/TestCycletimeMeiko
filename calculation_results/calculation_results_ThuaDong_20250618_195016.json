@@ -1,11 +1,11 @@
 {
   "success": true,
-  "timestamp": "20250618_192824",
+  "timestamp": "20250618_195016",
   "input_data": {
     "class_name": "ThuaDong",
     "theta": -89.6,
     "image_path": "/home/jkl0909/TestCycletimeMeiko/Data/thuadong/testthuadong.jpg",
-    "segmentation_file": "/home/jkl0909/TestCycletimeMeiko/sam_segmentation_results/segmentation_data_ThuaDong_20250618_183310.json"
+    "segmentation_file": "sam_segmentation_results/segmentation_data_ThuaDong_20250618_195015.json"
   },
   "calculation_results": {
     "original_bbox": {
@@ -20,6 +20,20 @@
         "x": 253.0,
         "y": 283.0
       }
+    },
+    "rotated_bbox": {
+      "x_min": 226.72294475116144,
+      "x_max": 284.60983116730694,
+      "y_min": 252.83773341886467,
+      "y_max": 318.9827315116779,
+      "width": 57.8868864161455,
+      "height": 66.14499809281324,
+      "area": 3828.927991594841,
+      "center": {
+        "x": 255.66638795923419,
+        "y": 285.9102324652713
+      },
+      "rotation_angle": -89.6
     },
     "final_rotated_bbox": {
       "x_min": 255.72187057563337,
@@ -45,7 +59,7 @@
     }
   },
   "output_files": {
-    "json_file": "/home/jkl0909/TestCycletimeMeiko/calculation_results/calculation_results_ThuaDong_20250618_192824.json",
-    "rotated_visualization": "/home/jkl0909/TestCycletimeMeiko/calculation_results/rotated_analysis_ThuaDong_20250618_192824.png"
+    "json_file": "/home/jkl0909/TestCycletimeMeiko/calculation_results/calculation_results_ThuaDong_20250618_195016.json",
+    "rotated_visualization": "/home/jkl0909/TestCycletimeMeiko/calculation_results/rotated_analysis_ThuaDong_20250618_195016.png"
   }
 }

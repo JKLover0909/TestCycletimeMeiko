@@ -1,6 +1,6 @@
 {
   "success": true,
-  "timestamp": "20250618_183310",
+  "timestamp": "20250618_195015",
   "input_data": {
     "image_path": "/home/jkl0909/TestCycletimeMeiko/Data/thuadong/testthuadong.jpg",
     "class_name": "ThuaDong",
@@ -772,7 +772,7 @@
     }
   },
   "output_files": {
-    "visualization": "sam_segmentation_results/segmentation_ThuaDong_20250618_183310.png",
-    "json_file": "sam_segmentation_results/segmentation_data_ThuaDong_20250618_183310.json"
+    "visualization": "sam_segmentation_results/segmentation_ThuaDong_20250618_195015.png",
+    "json_file": "sam_segmentation_results/segmentation_data_ThuaDong_20250618_195015.json"
   }
 }

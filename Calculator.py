@@ -253,44 +253,59 @@ def run_calculation(segmentation_json: str, image_path: str) -> Dict[str, Any]:
         print(f"🔄 Theta: {theta:.2f}°")
         
         original_contour = seg_results.get("original_contour", {})
+        rotated_contour = seg_results.get("rotated_contour")
         
         if not original_contour:
             raise ValueError("No original contour data found")
         
-        # ✅ ONLY use original points - we will rotate them ourselves
         original_points = original_contour.get("points", [])
-        
-        print(f"📊 Using original contour with {len(original_points)} points")
-        print(f"📊 Will rotate both image and contour by {theta:.2f}°")
         
         # Initialize calculator
         calculator = RotatedBBoxCalculator()
         
         # Calculate original bounding box
+        print("📊 Calculating original bounding box...")
         original_bbox = calculator.calculate_bbox_from_points(original_points)
+        
+        # Calculate rotated bounding box
+        if rotated_contour and theta != 0:
+            print("📊 Calculating rotated bounding box...")
+            rotated_points = rotated_contour.get("points", [])
+            if not rotated_points:
+                raise ValueError("No rotated contour points found")
+            rotated_bbox = calculator.calculate_bbox_from_points(rotated_points)
+        else:
+            print("📊 No rotation applied, using original bbox")
+            rotated_points = original_points
+            rotated_bbox = original_bbox.copy()
+            rotated_bbox["rotation_angle"] = 0
+        
+        # Add rotation info
+        rotated_bbox["rotation_angle"] = theta
         
         # Create output files
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         output_dir = "/home/jkl0909/TestCycletimeMeiko/calculation_results"
         os.makedirs(output_dir, exist_ok=True)
         
-        # ✅ Create rotated visualization using ORIGINAL contour
+        # Create rotated visualization (PNG format)
         vis_file = f"{output_dir}/rotated_analysis_{class_name}_{timestamp}.png"
         print("🎨 Creating rotated image visualization...")
         
         vis_result = calculator.create_rotated_visualization(
-            image_path, original_bbox, original_bbox, class_name, theta,
-            original_points, [], vis_file  # Pass empty list for rotated_points
+            image_path, original_bbox, rotated_bbox, class_name, theta,
+            original_points, rotated_points, vis_file
         )
         
         # Get final bbox from visualization result
-        final_rotated_bbox = vis_result.get("final_bbox", original_bbox)
+        final_rotated_bbox = vis_result.get("final_bbox", rotated_bbox)
         success = vis_result.get("success", False)
         
         print(f"📊 FINAL RESULTS:")
-        print(f"   Original BBox: {original_bbox['width']:.1f} x {original_bbox['height']:.1f} pixels")
-        print(f"   Final Rotated BBox: {final_rotated_bbox['width']:.1f} x {final_rotated_bbox['height']:.1f} pixels")
-        print(f"   Rotation Applied: {theta:.2f}°")
+        print(f"   Original BBox: {original_bbox['width']:.1f} x {original_bbox['height']:.1f} pixels (area: {original_bbox['area']:.1f})")
+        print(f"   Rotated BBox: {rotated_bbox['width']:.1f} x {rotated_bbox['height']:.1f} pixels (area: {rotated_bbox['area']:.1f})")
+        print(f"   Final Rotated BBox: {final_rotated_bbox['width']:.1f} x {final_rotated_bbox['height']:.1f} pixels (area: {final_rotated_bbox['area']:.1f})")
+        print(f"   Rotation: {theta:.2f}°")
         print(f"   Contour Area: {original_contour.get('area', 0):.1f} pixels")
         
         # Prepare results
@@ -305,6 +320,7 @@ def run_calculation(segmentation_json: str, image_path: str) -> Dict[str, Any]:
             },
             "calculation_results": {
                 "original_bbox": original_bbox,
+                "rotated_bbox": rotated_bbox,
                 "final_rotated_bbox": final_rotated_bbox,
                 "contour_properties": {
                     "original_area": original_contour.get("area", 0),
@@ -340,6 +356,7 @@ def run_calculation(segmentation_json: str, image_path: str) -> Dict[str, Any]:
             "timestamp": datetime.now().strftime("%Y%m%d_%H%M%S")
         }
         return error_data
+
 def main():
     """Main function"""
     

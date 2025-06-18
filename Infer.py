@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
-Infer.py - Complete Inference Pipeline
+Infer.py - Complete Inference Pipeline v3.2
 Integrates AI Detection → SAM Segmentation → Rotated BBox Calculation
+Compatible with Calculator v6.0
 """
 
 import subprocess
@@ -19,7 +20,7 @@ class InferencePipeline:
     
     def __init__(self, temp_dir: str = None):
         """Initialize inference pipeline"""
-        self.version = "3.0"
+        self.version = "3.2"
         self.temp_dir = temp_dir or tempfile.mkdtemp(prefix="inference_")
         self.ensure_directories()
     
@@ -27,7 +28,7 @@ class InferencePipeline:
         """Ensure all required directories exist"""
         directories = [
             "sam_segmentation_results",
-            "calculation_results", 
+            "/home/jkl0909/TestCycletimeMeiko/calculation_results",
             "inference_results",
             self.temp_dir
         ]
@@ -75,7 +76,7 @@ class InferencePipeline:
             return {"success": False, "error": str(e)}
     
     def parse_ai_detection_output(self, output: str) -> List[Dict[str, Any]]:
-        """Parse text output from AIDetect.py - Updated for actual format"""
+        """Parse text output from AIDetect.py"""
         try:
             detections = []
             lines = output.strip().split('\n')
@@ -154,8 +155,11 @@ class InferencePipeline:
                 
                 if seg_data and seg_data.get("success", False):
                     print(f"✅ Segmentation successful")
-                    print(f"   Area: {seg_data['segmentation_results']['original_contour']['area']:.1f} pixels")
-                    print(f"   Points: {seg_data['segmentation_results']['original_contour']['num_points']}")
+                    
+                    # Extract contour info
+                    original_contour = seg_data.get('segmentation_results', {}).get('original_contour', {})
+                    print(f"   Original contour area: {original_contour.get('area', 0):.1f} pixels")
+                    print(f"   Original contour points: {original_contour.get('num_points', 0)}")
                     
                     # Get JSON file path
                     json_file = seg_data['output_files']['json_file']
@@ -175,10 +179,18 @@ class InferencePipeline:
             return {"success": False, "error": str(e)}
     
     def run_calculation(self, segmentation_json: str, image_path: str) -> Dict[str, Any]:
-        """Run rotated bbox calculation step"""
+        """Run rotated bbox calculation step - Compatible with Calculator v6.0"""
         try:
             print(f"🧮 Step 3: Running Rotated BBox Calculation...")
             print(f"   Segmentation data: {os.path.basename(segmentation_json)}")
+            print(f"   Will rotate original image and contour together")
+            
+            # Validate files exist
+            if not os.path.exists(segmentation_json):
+                return {"success": False, "error": f"Segmentation file not found: {segmentation_json}"}
+            
+            if not os.path.exists(image_path):
+                return {"success": False, "error": f"Image file not found: {image_path}"}
             
             # Build command
             cmd = [
@@ -198,10 +210,26 @@ class InferencePipeline:
                 
                 if calc_data and calc_data.get("success", False):
                     print(f"✅ Calculation successful")
-                    bbox = calc_data['calculation_results']['rotated_bbox']
-                    print(f"   Dimensions: {bbox['width']:.1f} x {bbox['height']:.1f} pixels")
-                    print(f"   Area: {bbox['area']:.1f} pixels")
-                    print(f"   Rotation: {bbox['rotation_angle']:.2f}°")
+                    
+                    # ✅ Extract dimensions from Calculator v6.0 structure
+                    calc_results = calc_data.get('calculation_results', {})
+                    
+                    # Get final rotated bbox (main result)
+                    final_bbox = calc_results.get('final_rotated_bbox', {})
+                    if final_bbox:
+                        print(f"   Final dimensions: {final_bbox['width']:.1f} x {final_bbox['height']:.1f} pixels")
+                        print(f"   Final area: {final_bbox['area']:.1f} pixels")
+                        print(f"   Rotation applied: {final_bbox.get('rotation_angle', 0):.2f}°")
+                    
+                    # Get original bbox for comparison
+                    original_bbox = calc_results.get('original_bbox', {})
+                    if original_bbox:
+                        print(f"   Original dimensions: {original_bbox['width']:.1f} x {original_bbox['height']:.1f} pixels")
+                    
+                    # Get rotated bbox (intermediate step)
+                    rotated_bbox = calc_results.get('rotated_bbox', {})
+                    if rotated_bbox:
+                        print(f"   Rotated bbox dimensions: {rotated_bbox['width']:.1f} x {rotated_bbox['height']:.1f} pixels")
                     
                     return {"success": True, "data": calc_data}
                 else:
@@ -308,13 +336,32 @@ class InferencePipeline:
             
             calc_data = calculation_result["data"]
             
-            # Compile final results
+            # ✅ Compile final results - Compatible with Calculator v6.0
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            
+            # Extract all bbox information from Calculator v6.0
+            calc_results = calc_data["calculation_results"]
+            
+            # Primary result: final_rotated_bbox
+            final_bbox = calc_results.get("final_rotated_bbox", {})
+            original_bbox = calc_results.get("original_bbox", {})
+            rotated_bbox = calc_results.get("rotated_bbox", {})
+            
+            # Use final_rotated_bbox as main dimensions, fallback to others
+            main_bbox = final_bbox or rotated_bbox or original_bbox
+            
+            final_dimensions = {
+                "width": main_bbox.get("width", 0),
+                "height": main_bbox.get("height", 0),
+                "area": main_bbox.get("area", 0),
+                "rotation_angle": main_bbox.get("rotation_angle", detection["angle"])
+            }
             
             final_results = {
                 "success": True,
                 "timestamp": timestamp,
                 "pipeline_version": self.version,
+                "calculator_version": "6.0",
                 "input": {
                     "image_path": image_path,
                     "confidence_threshold": confidence
@@ -332,19 +379,33 @@ class InferencePipeline:
                         "center": seg_data["segmentation_results"]["original_contour"]["center"],
                         "num_points": seg_data["segmentation_results"]["original_contour"]["num_points"]
                     },
-                    "final_dimensions": {
-                        "width": calc_data["calculation_results"]["rotated_bbox"]["width"],
-                        "height": calc_data["calculation_results"]["rotated_bbox"]["height"],
-                        "area": calc_data["calculation_results"]["rotated_bbox"]["area"],
-                        "rotation_angle": calc_data["calculation_results"]["rotated_bbox"]["rotation_angle"]
-                    }
+                    "calculation": {
+                        "original_bbox": {
+                            "width": original_bbox.get("width", 0),
+                            "height": original_bbox.get("height", 0),
+                            "area": original_bbox.get("area", 0)
+                        },
+                        "rotated_bbox": {
+                            "width": rotated_bbox.get("width", 0),
+                            "height": rotated_bbox.get("height", 0),
+                            "area": rotated_bbox.get("area", 0),
+                            "rotation_angle": rotated_bbox.get("rotation_angle", 0)
+                        },
+                        "final_rotated_bbox": {
+                            "width": final_bbox.get("width", 0),
+                            "height": final_bbox.get("height", 0),
+                            "area": final_bbox.get("area", 0),
+                            "rotation_angle": final_bbox.get("rotation_angle", 0)
+                        }
+                    },
+                    "final_dimensions": final_dimensions
                 },
                 "output_files": {
                     "segmentation_visualization": seg_data["output_files"]["visualization"],
                     "segmentation_data": seg_data["output_files"]["json_file"],
-                    "calculation_visualization": calc_data["output_files"]["visualization"],
+                    "rotated_visualization": calc_data["output_files"]["rotated_visualization"],
                     "calculation_data": calc_data["output_files"]["json_file"],
-                    "final_results": ""  # Will be filled below
+                    "final_results": ""
                 }
             }
             
@@ -357,9 +418,11 @@ class InferencePipeline:
             
             print(f"\n🎉 INFERENCE COMPLETED SUCCESSFULLY!")
             print(f"📊 Object: {detection['class_name']} (confidence: {detection['confidence']:.3f})")
-            print(f"📐 Final Dimensions: {final_results['results']['final_dimensions']['width']:.1f} x {final_results['results']['final_dimensions']['height']:.1f} pixels")
-            print(f"📏 Area: {final_results['results']['final_dimensions']['area']:.1f} pixels")
-            print(f"🔄 Rotation: {final_results['results']['final_dimensions']['rotation_angle']:.2f}°")
+            print(f"📐 Original Dimensions: {final_results['results']['calculation']['original_bbox']['width']:.1f} x {final_results['results']['calculation']['original_bbox']['height']:.1f} pixels")
+            print(f"📐 Rotated Dimensions: {final_results['results']['calculation']['rotated_bbox']['width']:.1f} x {final_results['results']['calculation']['rotated_bbox']['height']:.1f} pixels")
+            print(f"📐 Final Dimensions: {final_dimensions['width']:.1f} x {final_dimensions['height']:.1f} pixels")
+            print(f"📏 Final Area: {final_dimensions['area']:.1f} pixels")
+            print(f"🔄 Rotation: {final_dimensions['rotation_angle']:.2f}°")
             print(f"🕒 Completed: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
             print()
             print(f"📁 Output Files:")
@@ -391,7 +454,7 @@ class InferencePipeline:
 def main():
     """Main function"""
     
-    parser = argparse.ArgumentParser(description="Complete Inference Pipeline v3.0")
+    parser = argparse.ArgumentParser(description="Complete Inference Pipeline v3.2")
     parser.add_argument("--image_path", required=True, help="Path to input image")
     parser.add_argument("--confidence", type=float, default=0.5, help="Detection confidence threshold")
     parser.add_argument("--temp_dir", help="Temporary directory for processing")
