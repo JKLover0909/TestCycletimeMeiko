@@ -1,6 +1,6 @@
 {
   "success": true,
-  "timestamp": "20250618_195017",
+  "timestamp": "20250619_134115",
   "pipeline_version": "3.2",
   "calculator_version": "6.0",
   "input": {
@@ -55,10 +55,10 @@
     }
   },
   "output_files": {
-    "segmentation_visualization": "sam_segmentation_results/segmentation_ThuaDong_20250618_195015.png",
-    "segmentation_data": "sam_segmentation_results/segmentation_data_ThuaDong_20250618_195015.json",
-    "rotated_visualization": "/home/jkl0909/TestCycletimeMeiko/calculation_results/rotated_analysis_ThuaDong_20250618_195016.png",
-    "calculation_data": "/home/jkl0909/TestCycletimeMeiko/calculation_results/calculation_results_ThuaDong_20250618_195016.json",
-    "final_results": "inference_results/inference_results_ThuaDong_20250618_195017.json"
+    "segmentation_visualization": "results/sam_segmentation_results/segmentation_ThuaDong_20250619_134113.png",
+    "segmentation_data": "results/sam_segmentation_results/segmentation_data_ThuaDong_20250619_134113.json",
+    "rotated_visualization": "/home/jkl0909/TestCycletimeMeiko/results/calculation_results/rotated_analysis_ThuaDong_20250619_134114.png",
+    "calculation_data": "/home/jkl0909/TestCycletimeMeiko/results/calculation_results/calculation_results_ThuaDong_20250619_134114.json",
+    "final_results": "results/inference_results/inference_results_ThuaDong_20250619_134115.json"
   }
 }

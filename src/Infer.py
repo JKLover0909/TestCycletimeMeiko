@@ -27,9 +27,9 @@ class InferencePipeline:
     def ensure_directories(self):
         """Ensure all required directories exist"""
         directories = [
-            "sam_segmentation_results",
-            "/home/jkl0909/TestCycletimeMeiko/calculation_results",
-            "inference_results",
+            "results/sam_segmentation_results",
+            "/home/jkl0909/TestCycletimeMeiko/results/calculation_results",
+            "results/inference_results",
             self.temp_dir
         ]
         
@@ -410,7 +410,7 @@ class InferencePipeline:
             }
             
             # Save final results
-            final_json = f"inference_results/inference_results_{detection['class_name']}_{timestamp}.json"
+            final_json = f"results/inference_results/inference_results_{detection['class_name']}_{timestamp}.json"
             final_results["output_files"]["final_results"] = final_json
             
             with open(final_json, 'w') as f:

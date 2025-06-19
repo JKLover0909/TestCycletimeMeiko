@@ -285,7 +285,7 @@ def run_calculation(segmentation_json: str, image_path: str) -> Dict[str, Any]:
         
         # Create output files
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        output_dir = "/home/jkl0909/TestCycletimeMeiko/calculation_results"
+        output_dir = "/home/jkl0909/TestCycletimeMeiko/results/calculation_results"
         os.makedirs(output_dir, exist_ok=True)
         
         # Create rotated visualization (PNG format)

@@ -1,0 +1,64 @@
+{
+  "success": true,
+  "timestamp": "20250619_142509",
+  "pipeline_version": "3.2",
+  "calculator_version": "6.0",
+  "input": {
+    "image_path": "/home/jkl0909/TestCycletimeMeiko/Data/thuadong/testthuadong.jpg",
+    "confidence_threshold": 0.5
+  },
+  "results": {
+    "detection": {
+      "class_name": "ThuaDong",
+      "confidence": 0.934,
+      "bbox": [
+        217.0,
+        241.0,
+        292.0,
+        319.0
+      ],
+      "angle": -89.6
+    },
+    "segmentation": {
+      "area": 2895.5,
+      "perimeter": 216.7523068189621,
+      "center": {
+        "x": 255.82484314741262,
+        "y": 283.1317561733725
+      },
+      "num_points": 92
+    },
+    "calculation": {
+      "original_bbox": {
+        "width": 66.0,
+        "height": 58.0,
+        "area": 3828.0
+      },
+      "rotated_bbox": {
+        "width": 57.8868864161455,
+        "height": 66.14499809281324,
+        "area": 3828.927991594841,
+        "rotation_angle": -89.6
+      },
+      "final_rotated_bbox": {
+        "width": 57.8868864161455,
+        "height": 66.14499809281318,
+        "area": 3828.9279915948373,
+        "rotation_angle": -89.6
+      }
+    },
+    "final_dimensions": {
+      "width": 57.8868864161455,
+      "height": 66.14499809281318,
+      "area": 3828.9279915948373,
+      "rotation_angle": -89.6
+    }
+  },
+  "output_files": {
+    "segmentation_visualization": "results/sam_segmentation_results/segmentation_ThuaDong_20250619_142507.png",
+    "segmentation_data": "results/sam_segmentation_results/segmentation_data_ThuaDong_20250619_142507.json",
+    "rotated_visualization": "/home/jkl0909/TestCycletimeMeiko/results/calculation_results/rotated_analysis_ThuaDong_20250619_142508.png",
+    "calculation_data": "/home/jkl0909/TestCycletimeMeiko/results/calculation_results/calculation_results_ThuaDong_20250619_142508.json",
+    "final_results": "results/inference_results/inference_results_ThuaDong_20250619_142509.json"
+  }
+}

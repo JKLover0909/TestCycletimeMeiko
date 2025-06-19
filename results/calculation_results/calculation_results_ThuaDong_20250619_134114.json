@@ -1,11 +1,11 @@
 {
   "success": true,
-  "timestamp": "20250618_195016",
+  "timestamp": "20250619_134114",
   "input_data": {
     "class_name": "ThuaDong",
     "theta": -89.6,
     "image_path": "/home/jkl0909/TestCycletimeMeiko/Data/thuadong/testthuadong.jpg",
-    "segmentation_file": "sam_segmentation_results/segmentation_data_ThuaDong_20250618_195015.json"
+    "segmentation_file": "results/sam_segmentation_results/segmentation_data_ThuaDong_20250619_134113.json"
   },
   "calculation_results": {
     "original_bbox": {
@@ -59,7 +59,7 @@
     }
   },
   "output_files": {
-    "json_file": "/home/jkl0909/TestCycletimeMeiko/calculation_results/calculation_results_ThuaDong_20250618_195016.json",
-    "rotated_visualization": "/home/jkl0909/TestCycletimeMeiko/calculation_results/rotated_analysis_ThuaDong_20250618_195016.png"
+    "json_file": "/home/jkl0909/TestCycletimeMeiko/results/calculation_results/calculation_results_ThuaDong_20250619_134114.json",
+    "rotated_visualization": "/home/jkl0909/TestCycletimeMeiko/results/calculation_results/rotated_analysis_ThuaDong_20250619_134114.png"
   }
 }

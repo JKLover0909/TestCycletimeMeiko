@@ -19,7 +19,7 @@ import torch
 class SAMSegmenter:
     """SAM-based segmentation engine"""
     
-    def __init__(self, model_path: str = "/home/jkl0909/TestCycletimeMeiko/sam2.1_s.pt"):
+    def __init__(self, model_path: str = "/home/jkl0909/TestCycletimeMeiko/Model/sam2.1_s.pt"):
         """Initialize SAM segmenter"""
         self.model_path = model_path
         self.model = None
@@ -451,7 +451,7 @@ class SAMSegmenter:
                 return False
 
 def run_segmentation(image_path: str, class_name: str, coordinates: str, theta: float, 
-                    sam_model: str = "/home/jkl0909/TestCycletimeMeiko/sam2.1_s.pt") -> Dict[str, Any]:
+                    sam_model: str = "/home/jkl0909/TestCycletimeMeiko/Model/sam2.1_s.pt") -> Dict[str, Any]:
     """Main segmentation pipeline"""
     
     try:
@@ -523,7 +523,7 @@ def run_segmentation(image_path: str, class_name: str, coordinates: str, theta: 
         
         # Create output files
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        output_dir = "sam_segmentation_results"
+        output_dir = "results/sam_segmentation_results"
         os.makedirs(output_dir, exist_ok=True)
         
         # Create visualization
@@ -599,7 +599,7 @@ def main():
     parser.add_argument("--class_name", required=True, help="Class name for segmentation")
     parser.add_argument("--coordinates", required=True, help="Bounding box coordinates (x1,y1,x2,y2)")
     parser.add_argument("--theta", type=float, default=0, help="Rotation angle in degrees")
-    parser.add_argument("--sam_model", default="/home/jkl0909/TestCycletimeMeiko/sam2.1_s.pt", help="Path to SAM model file")
+    parser.add_argument("--sam_model", default="/home/jkl0909/TestCycletimeMeiko/Model/sam2.1_s.pt", help="Path to SAM model file")
     
     args = parser.parse_args()
     
