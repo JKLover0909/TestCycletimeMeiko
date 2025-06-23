@@ -55,10 +55,10 @@
     }
   },
   "output_files": {
-    "segmentation_visualization": "results/sam_segmentation_results/segmentation_ThuaDong_20250619_134113.png",
-    "segmentation_data": "results/sam_segmentation_results/segmentation_data_ThuaDong_20250619_134113.json",
-    "rotated_visualization": "/home/jkl0909/TestCycletimeMeiko/results/calculation_results/rotated_analysis_ThuaDong_20250619_134114.png",
-    "calculation_data": "/home/jkl0909/TestCycletimeMeiko/results/calculation_results/calculation_results_ThuaDong_20250619_134114.json",
-    "final_results": "results/inference_results/inference_results_ThuaDong_20250619_134115.json"
+    "segmentation_visualization": "/TestCycletimeMeiko/results/sam_segmentation_results/segmentation_ThuaDong_20250619_134113.png",
+    "segmentation_data": "/TestCycletimeMeiko/results/sam_segmentation_results/segmentation_data_ThuaDong_20250619_134113.json",
+    "rotated_visualization": "/TestCycletimeMeiko/results/calculation_results/rotated_analysis_ThuaDong_20250619_134114.png",
+    "calculation_data": "/TestCycletimeMeiko/results/calculation_results/calculation_results_ThuaDong_20250619_134114.json",
+    "final_results": "/TestCycletimeMeiko/results/inference_results/inference_results_ThuaDong_20250619_134115.json"
   }
 }

@@ -19,11 +19,11 @@ class OfflineAIDetector:
         """100% Offline AI Detector with OBB support - NO INTERNET NEEDED"""
         
         self.engine_paths = [
-            "/home/jkl0909/TestCycletimeMeiko/Model/thuadong.engine",
-            "/home/jkl0909/TestCycletimeMeiko/Model/khuyetmach.engine", 
-            "/home/jkl0909/TestCycletimeMeiko/Model/nganmach.engine",
-            "/home/jkl0909/TestCycletimeMeiko/Model/vetlom.engine",
-            "/home/jkl0909/TestCycletimeMeiko/Model/xuoc.engine"
+            "/home/jkl0909/TestCycletimeMeiko/models/thuadong.engine",
+            "/home/jkl0909/TestCycletimeMeiko/models//khuyetmach.engine", 
+            "/home/jkl0909/TestCycletimeMeiko/models//nganmach.engine",
+            "/home/jkl0909/TestCycletimeMeiko/models//vetlom.engine",
+            "/home/jkl0909/TestCycletimeMeiko/models//xuoc.engine"
         ]
         
         self.engine_names = ["Thuadong", "KhuyetMach", "NganMach", "VetLom", "Xuoc"]

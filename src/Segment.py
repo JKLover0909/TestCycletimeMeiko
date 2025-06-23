@@ -19,8 +19,13 @@ import torch
 class SAMSegmenter:
     """SAM-based segmentation engine"""
     
-    def __init__(self, model_path: str = "/home/jkl0909/TestCycletimeMeiko/Model/sam2.1_s.pt"):
+    def __init__(self, model_path: str = None):
         """Initialize SAM segmenter"""
+        if model_path is None:
+            # Lấy đường dẫn model từ thư mục Model ngang hàng với src
+            project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            model_path = os.path.join(project_root, "models", "sam2.1_s.pt")
+        
         self.model_path = model_path
         self.model = None
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -451,7 +456,7 @@ class SAMSegmenter:
                 return False
 
 def run_segmentation(image_path: str, class_name: str, coordinates: str, theta: float, 
-                    sam_model: str = "/home/jkl0909/TestCycletimeMeiko/Model/sam2.1_s.pt") -> Dict[str, Any]:
+                    sam_model: str = None) -> Dict[str, Any]:
     """Main segmentation pipeline"""
     
     try:
@@ -480,7 +485,11 @@ def run_segmentation(image_path: str, class_name: str, coordinates: str, theta: 
         
         print(f"✅ Image loaded: {image.shape}")
         
-        # Initialize segmenter
+        # Initialize segmenter với đường dẫn model
+        if sam_model is None:
+            project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            sam_model = os.path.join(project_root, "models", "sam2.1_s.pt")
+        
         segmenter = SAMSegmenter(sam_model)
         if not segmenter.load_model():
             raise Exception("Failed to load SAM model")
@@ -521,13 +530,14 @@ def run_segmentation(image_path: str, class_name: str, coordinates: str, theta: 
         else:
             rotated_points = original_points
         
-        # Create output files
+        # Create output files với đường dẫn tương đối
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        output_dir = "results/sam_segmentation_results"
+        project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        output_dir = os.path.join(project_root, "results", "sam_segmentation_results")
         os.makedirs(output_dir, exist_ok=True)
         
         # Create visualization
-        vis_file = f"{output_dir}/segmentation_{class_name}_{timestamp}.png"
+        vis_file = os.path.join(output_dir, f"segmentation_{class_name}_{timestamp}.png")
         print("🎨 Creating visualization...")
         
         success = segmenter.create_visualization(
@@ -570,7 +580,7 @@ def run_segmentation(image_path: str, class_name: str, coordinates: str, theta: 
         }
         
         # Save JSON file
-        json_file = f"{output_dir}/segmentation_data_{class_name}_{timestamp}.json"
+        json_file = os.path.join(output_dir, f"segmentation_data_{class_name}_{timestamp}.json")
         output_data["output_files"]["json_file"] = json_file
         
         with open(json_file, 'w') as f:
@@ -599,7 +609,7 @@ def main():
     parser.add_argument("--class_name", required=True, help="Class name for segmentation")
     parser.add_argument("--coordinates", required=True, help="Bounding box coordinates (x1,y1,x2,y2)")
     parser.add_argument("--theta", type=float, default=0, help="Rotation angle in degrees")
-    parser.add_argument("--sam_model", default="/home/jkl0909/TestCycletimeMeiko/Model/sam2.1_s.pt", help="Path to SAM model file")
+    parser.add_argument("--sam_model", default=None, help="Path to SAM model file")
     
     args = parser.parse_args()
     

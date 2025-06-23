@@ -22,19 +22,23 @@ class InferencePipeline:
         """Initialize inference pipeline"""
         self.version = "3.2"
         self.temp_dir = temp_dir or tempfile.mkdtemp(prefix="inference_")
+        self.project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         self.ensure_directories()
     
     def ensure_directories(self):
         """Ensure all required directories exist"""
         directories = [
-            "results/sam_segmentation_results",
-            "/home/jkl0909/TestCycletimeMeiko/results/calculation_results",
-            "results/inference_results",
+            os.path.join(self.project_root, "results", "sam_segmentation_results"),
+            os.path.join(self.project_root, "results", "calculation_results"),
+            os.path.join(self.project_root, "results", "inference_results"),
             self.temp_dir
         ]
-        
         for directory in directories:
             os.makedirs(directory, exist_ok=True)
+    
+    def get_results_path(self, subfolder: str, filename: str) -> str:
+        """Get path for results file"""
+        return os.path.join(self.project_root, "results", subfolder, filename)
     
     def run_ai_detection(self, image_path: str, confidence: float = 0.5) -> Dict[str, Any]:
         """Run AI detection step"""
@@ -138,9 +142,9 @@ class InferencePipeline:
             # Build command
             cmd = [
                 "python", "Segment.py",
-                "--image_path", image_path,
-                "--class_name", detection['class_name'],
-                "--coordinates", detection['coordinates'],
+                "--image_path", str(image_path),
+                "--class_name", str(detection['class_name']),
+                "--coordinates", str(detection['coordinates']),
                 "--theta", str(detection['angle'])
             ]
             
@@ -409,8 +413,8 @@ class InferencePipeline:
                 }
             }
             
-            # Save final results
-            final_json = f"results/inference_results/inference_results_{detection['class_name']}_{timestamp}.json"
+            # Save final results với đường dẫn tương đối
+            final_json = self.get_results_path("inference_results", f"inference_results_{detection['class_name']}_{timestamp}.json")
             final_results["output_files"]["final_results"] = final_json
             
             with open(final_json, 'w') as f:
@@ -453,22 +457,30 @@ class InferencePipeline:
 
 def main():
     """Main function"""
-    
+
     parser = argparse.ArgumentParser(description="Complete Inference Pipeline v3.2")
     parser.add_argument("--image_path", required=True, help="Path to input image")
     parser.add_argument("--confidence", type=float, default=0.5, help="Detection confidence threshold")
     parser.add_argument("--temp_dir", help="Temporary directory for processing")
     parser.add_argument("--keep_temp", action="store_true", help="Keep temporary files")
-    
+
     args = parser.parse_args()
-    
+
+    # Đặt temp_dir mặc định nếu không truyền vào
+    temp_dir = args.temp_dir or os.path.join(os.path.expanduser("~"), "TestCycletimeMeiko_temp")
+    try:
+        os.makedirs(temp_dir, exist_ok=True)
+    except PermissionError:
+        print(f"❌ Permission denied: Cannot create or write to temp_dir '{temp_dir}'.")
+        sys.exit(1)
+
     # Initialize pipeline
-    pipeline = InferencePipeline(args.temp_dir)
-    
+    pipeline = InferencePipeline(temp_dir)
+
     try:
         # Run inference
         result = pipeline.run_complete_inference(args.image_path, args.confidence)
-        
+
         if result.get("success", False):
             print("\n✅ PIPELINE COMPLETED SUCCESSFULLY")
             sys.exit(0)
@@ -476,7 +488,7 @@ def main():
             print(f"\n❌ PIPELINE FAILED at step: {result.get('step', 'unknown')}")
             print(f"Error: {result.get('error', 'Unknown error')}")
             sys.exit(1)
-            
+
     except KeyboardInterrupt:
         print("\n⏹️ Pipeline interrupted by user")
         sys.exit(0)
@@ -487,6 +499,6 @@ def main():
         # Cleanup unless requested to keep
         if not args.keep_temp:
             pipeline.cleanup()
-
+        
 if __name__ == "__main__":
     main()
