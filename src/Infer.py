@@ -49,7 +49,7 @@ class InferencePipeline:
             
             # Build command
             cmd = [
-                "python", "AIDetect.py",
+                "python", "src/AIDetect.py",
                 "--image_path", image_path,
                 "--confidence", str(confidence)
             ]
@@ -141,7 +141,7 @@ class InferencePipeline:
             
             # Build command
             cmd = [
-                "python", "Segment.py",
+                "python", "src/Segment.py",
                 "--image_path", str(image_path),
                 "--class_name", str(detection['class_name']),
                 "--coordinates", str(detection['coordinates']),
@@ -198,7 +198,7 @@ class InferencePipeline:
             
             # Build command
             cmd = [
-                "python", "Calculator.py",
+                "python", "src/Calculator.py",
                 "--segmentation_data", segmentation_json,
                 "--image_path", image_path
             ]

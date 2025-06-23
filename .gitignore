@@ -2,9 +2,8 @@ Miniconda3-latest-Linux-x86_64.sh
 TensorRT-10.12.0.36.Linux.x86_64-gnu.cuda-11.8.tar.gz
 TensorRT-10.12.0.36/
 cuda-repo-wsl-ubuntu-12-9-local_12.9.1-1_amd64.deb
-/TestCycletimeMeiko/src/Test.ipynb
-/TestCycletimeMeiko/bfg.jar
-/TestCycletimeMeiko/src/Test.ipynb
+bfg.jar
+note.txt
 
 # Ignore data and results folders
 data/
